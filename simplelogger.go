@@ -10,6 +10,7 @@ type simpleLogger struct {
 	debug bool
 }
 
+// Create: returns a new simpleLogger and sets debug flag accordingly
 func Create(debug bool) *simpleLogger {
 	return &simpleLogger{debug: debug}
 }
