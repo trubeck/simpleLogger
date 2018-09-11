@@ -1,19 +1,37 @@
 package simpleLogger
 
 import (
-	"io/ioutil"
+	"fmt"
 	"log"
 	"os"
 )
 
-var Trace = log.New(ioutil.Discard, "TRACE: ",
-	log.Ldate|log.Ltime|log.Lshortfile)
+type simpleLogger struct {
+	debug bool
+}
 
-var Info = log.New(os.Stdout, "INFO: ",
-	log.Ldate|log.Ltime|log.Lshortfile)
+func Create(debug bool) *simpleLogger {
+	return &simpleLogger{debug: debug}
+}
 
-var Warning = log.New(os.Stdout, "WARNING: ",
-	log.Ldate|log.Ltime|log.Lshortfile)
+func (l *simpleLogger) Trace(v ...interface{}) {
+	if l.debug {
+		trace := log.New(os.Stdout, "\x1B[36mTRACE: \x1B[0m", log.Ldate|log.Ltime|log.Lshortfile)
+		trace.Output(2, fmt.Sprintln(v...))
+	}
+}
 
-var Error = log.New(os.Stderr, "ERROR: ",
-	log.Ldate|log.Ltime|log.Lshortfile)
+func (l *simpleLogger) Info(v ...interface{}) {
+	info := log.New(os.Stdout, "\x1B[32mINFO: \x1B[0m", log.Ldate|log.Ltime|log.Lshortfile)
+	info.Output(2, fmt.Sprintln(v...))
+}
+
+func (l *simpleLogger) Warning(v ...interface{}) {
+	warning := log.New(os.Stdout, "\x1B[35mWARN: \x1B[0m", log.Ldate|log.Ltime|log.Lshortfile)
+	warning.Output(2, fmt.Sprintln(v...))
+}
+
+func (l *simpleLogger) Error(v ...interface{}) {
+	_error := log.New(os.Stderr, "\x1B[31mERROR: \x1B[0m", log.Ldate|log.Ltime|log.Lshortfile)
+	_error.Output(2, fmt.Sprintln(v...))
+}
