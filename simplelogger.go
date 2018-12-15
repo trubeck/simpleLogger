@@ -4,20 +4,26 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 )
 
-type SimpleLogger struct {
+type simpleLogger struct {
 	debug   bool
 	logfile string
 }
 
-// Create: returns a new SimpleLogger and sets debug flag accordingly
-func Create(debug bool, logfile string) *SimpleLogger {
-	return &SimpleLogger{debug: debug, logfile: logfile}
+var logger *simpleLogger
+var once sync.Once
+
+// Create: returns a new simpleLogger and sets debug flag accordingly
+func CreateLogger(debug bool, logfile string) {
+	once.Do(func() {
+		logger = &simpleLogger{debug: debug, logfile: logfile}
+	})
 }
 
-func (l *SimpleLogger) Initilize() {
-	if l.logfile != "" {
+func Initilize() {
+	if logger.logfile != "" {
 		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
@@ -38,9 +44,9 @@ func (l *SimpleLogger) Initilize() {
 
 }
 
-func (l *SimpleLogger) Trace(v ...interface{}) {
-	if l.debug {
-		if l.logfile != "" {
+func Trace(v ...interface{}) {
+	if logger.debug {
+		if logger.logfile != "" {
 			f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 			if err != nil {
 				log.Fatalf("error opening file: %v", err)
@@ -54,9 +60,9 @@ func (l *SimpleLogger) Trace(v ...interface{}) {
 	}
 }
 
-func (l *SimpleLogger) Info(v ...interface{}) {
+func Info(v ...interface{}) {
 
-	if l.logfile != "" {
+	if logger.logfile != "" {
 		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
@@ -70,9 +76,9 @@ func (l *SimpleLogger) Info(v ...interface{}) {
 	info.Output(2, fmt.Sprintln(v...))
 }
 
-func (l *SimpleLogger) Warning(v ...interface{}) {
+func Warning(v ...interface{}) {
 
-	if l.logfile != "" {
+	if logger.logfile != "" {
 		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
@@ -86,9 +92,9 @@ func (l *SimpleLogger) Warning(v ...interface{}) {
 	warning.Output(2, fmt.Sprintln(v...))
 }
 
-func (l *SimpleLogger) Error(v ...interface{}) {
+func Error(v ...interface{}) {
 
-	if l.logfile != "" {
+	if logger.logfile != "" {
 		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
@@ -102,8 +108,8 @@ func (l *SimpleLogger) Error(v ...interface{}) {
 	_error.Output(2, fmt.Sprintln(v...))
 }
 
-func (l *SimpleLogger) Fatal(v ...interface{}) {
-	if l.logfile != "" {
+func Fatal(v ...interface{}) {
+	if logger.logfile != "" {
 		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
@@ -121,8 +127,8 @@ func (l *SimpleLogger) Fatal(v ...interface{}) {
 	os.Exit(1)
 }
 
-func (l *SimpleLogger) Panic(v ...interface{}) {
-	if l.logfile != "" {
+func Panic(v ...interface{}) {
+	if logger.logfile != "" {
 		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
