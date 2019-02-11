@@ -24,7 +24,7 @@ func CreateLogger(debug bool, logfile string) {
 
 func Initilize() {
 	if logger.logfile != "" {
-		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		f, err := os.OpenFile(logger.logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
 		}
@@ -47,7 +47,7 @@ func Initilize() {
 func Trace(v ...interface{}) {
 	if logger.debug {
 		if logger.logfile != "" {
-			f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+			f, err := os.OpenFile(logger.logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 			if err != nil {
 				log.Fatalf("error opening file: %v", err)
 			}
@@ -63,7 +63,7 @@ func Trace(v ...interface{}) {
 func Info(v ...interface{}) {
 
 	if logger.logfile != "" {
-		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		f, err := os.OpenFile(logger.logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
 		}
@@ -79,7 +79,7 @@ func Info(v ...interface{}) {
 func Warning(v ...interface{}) {
 
 	if logger.logfile != "" {
-		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		f, err := os.OpenFile(logger.logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
 		}
@@ -95,7 +95,7 @@ func Warning(v ...interface{}) {
 func Error(v ...interface{}) {
 
 	if logger.logfile != "" {
-		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		f, err := os.OpenFile(logger.logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
 		}
@@ -110,7 +110,7 @@ func Error(v ...interface{}) {
 
 func Fatal(v ...interface{}) {
 	if logger.logfile != "" {
-		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		f, err := os.OpenFile(logger.logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
 		}
@@ -129,7 +129,7 @@ func Fatal(v ...interface{}) {
 
 func Panic(v ...interface{}) {
 	if logger.logfile != "" {
-		f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		f, err := os.OpenFile(logger.logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
 		}
